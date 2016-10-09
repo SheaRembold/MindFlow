@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using System.Net;
 using System.Net.Sockets;
@@ -12,6 +13,9 @@ public class iMotions : MonoBehaviour
     float value;
     byte[] buffer;
     public Transform scaleObj;
+
+    List<float> values = new List<float>();
+    float maxValue = 0f;
 
     void Start()
     {
@@ -45,7 +49,17 @@ public class iMotions : MonoBehaviour
         {
             float.TryParse(data.Substring(data.LastIndexOf(';') + 1), out value);
             Debug.Log(value);
-            scaleObj.transform.localScale = (0.1f + 0.1f * Mathf.Clamp(value / 10f, -1f, 1f)) * Vector3.one;
+            values.Add(Mathf.Abs(value));
+            if (values.Count > 90 * 30)
+                values.RemoveAt(0);
+            maxValue = 0f;
+            for (int i=0; i<values.Count; i++)
+            {
+                if (values[i] > maxValue)
+                    maxValue = values[i];
+            }
+            scaleObj.transform.localScale = (1f - 1f * Mathf.Clamp(value / maxValue, -1f, 1f)) * Vector3.one;
+            scaleObj.transform.localPosition = new Vector3(0f, -0.1f, 0.3f - 0.25f * Mathf.Clamp(value / maxValue, -1f, 1f));
         }
         data = "";
     }

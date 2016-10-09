@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using VRStandardAssets.Utils;
 
 public class LoadSceneButton : MonoBehaviour
 {
     public string sceneName;
+    bool isFading;
 
     void Start()
     {
@@ -12,6 +14,17 @@ public class LoadSceneButton : MonoBehaviour
 
     void OnClick()
     {
+        if (isFading)
+            return;
+
+        isFading = true;
+        VRCameraFade.Instance.OnFadeComplete += DoLoad;
+        VRCameraFade.Instance.FadeOut(true);
+    }
+
+    void DoLoad()
+    {
+        VRCameraFade.Instance.OnFadeComplete -= DoLoad;
         Application.LoadLevel(sceneName);
     }
 }

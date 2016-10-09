@@ -11,6 +11,7 @@ namespace VRStandardAssets.Utils
     // transition between scenes or restarting of a scene.
     public class VRCameraFade : MonoBehaviour
     {
+        public static VRCameraFade Instance;
         public event Action OnFadeComplete;                             // This is called when the fade in or out has finished.
 
 
@@ -33,6 +34,7 @@ namespace VRStandardAssets.Utils
 
         private void Awake()
         {
+            Instance = this;
             m_FadeOutColor = new Color(m_FadeColor.r, m_FadeColor.g, m_FadeColor.b, 0f);
             m_FadeImage.enabled = true;
         }
