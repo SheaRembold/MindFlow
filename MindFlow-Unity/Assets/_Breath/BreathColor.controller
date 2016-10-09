@@ -28,7 +28,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: BreathAnimation
-  m_Speed: 0.3
+  m_Speed: 0.03
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -39,7 +39,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4c3695ebbf47ab2418c7008cf38ae38e, type: 2}
+  m_Motion: {fileID: 7400000, guid: d9f666b3ea7e5ad4c9dc27fb0fb499fa, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
