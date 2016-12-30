@@ -7,6 +7,8 @@ using System.Net.Sockets;
 
 public class iMotions : MonoBehaviour
 {
+    enum Mode { Off, Auto, Manual }
+    enum Phase { BreathIn, HoldIn, BreathOut, HoldOut }
     Socket sock;
     SocketAsyncEventArgs eventArgs;
     string data;
@@ -16,6 +18,15 @@ public class iMotions : MonoBehaviour
 
     List<float> values = new List<float>();
     float maxValue = 0f;
+
+    Mode mode = Mode.Manual;
+
+    public float BreathInTime = 3f;
+    public float HoldInTime = 3f;
+    public float BreathOutTime = 3f;
+    public float HoldOutTime = 3f;
+    Phase phase;
+    float time;
 
     void Start()
     {
@@ -45,7 +56,23 @@ public class iMotions : MonoBehaviour
 
     void Update()
     {
-        if (!string.IsNullOrEmpty(data) && data.Contains("Biopac"))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            mode = Mode.Off;
+            scaleObj.gameObject.SetActive(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            mode = Mode.Auto;
+            scaleObj.gameObject.SetActive(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            mode = Mode.Manual;
+            scaleObj.gameObject.SetActive(true);
+        }
+
+        if (mode == Mode.Manual && !string.IsNullOrEmpty(data) && data.Contains("Biopac"))
         {
             float.TryParse(data.Substring(data.LastIndexOf(';') + 1), out value);
             Debug.Log(value);
@@ -53,7 +80,7 @@ public class iMotions : MonoBehaviour
             if (values.Count > 90 * 30)
                 values.RemoveAt(0);
             maxValue = 0f;
-            for (int i=0; i<values.Count; i++)
+            for (int i = 0; i < values.Count; i++)
             {
                 if (values[i] > maxValue)
                     maxValue = values[i];
@@ -61,6 +88,50 @@ public class iMotions : MonoBehaviour
             scaleObj.transform.localScale = (1f - 1f * Mathf.Clamp(value / maxValue, -1f, 1f)) * Vector3.one;
             scaleObj.transform.localPosition = new Vector3(0f, -0.1f, 0.3f - 0.25f * Mathf.Clamp(value / maxValue, -1f, 1f));
         }
+        else if (mode == Mode.Manual || mode == Mode.Auto)
+        {
+            time += Time.deltaTime;
+            float newValue = 0f;
+            if (phase == Phase.BreathIn)
+            {
+                newValue = Mathf.Lerp(1f, -1f, time / BreathInTime);
+                if (time >= BreathInTime)
+                {
+                    phase = Phase.HoldIn;
+                    time = 0;
+                }
+            }
+            else if (phase == Phase.HoldIn)
+            {
+                newValue = -1f;
+                if (time >= HoldInTime)
+                { 
+                    phase = Phase.BreathOut;
+                    time = 0;
+                }
+            }
+            else if (phase == Phase.BreathOut)
+            {
+                newValue = Mathf.Lerp(-1f, 1f, time / BreathOutTime);
+                if (time >= BreathOutTime)
+                { 
+                    phase = Phase.HoldOut;
+                    time = 0;
+                }
+            }
+            else if (phase == Phase.HoldOut)
+            {
+                newValue = 1f;
+                if (time >= HoldOutTime)
+                { 
+                    phase = Phase.BreathIn;
+                    time = 0;
+                }
+            }
+            scaleObj.transform.localScale = (1f - 1f * newValue) * Vector3.one;
+            scaleObj.transform.localPosition = new Vector3(0f, -0.1f, 0.3f - 0.25f * newValue);
+        }
+
         data = "";
     }
 }
