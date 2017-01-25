@@ -376,15 +376,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2069376, guid: 4cac9acb69a74ad4fa5d8cf9a9c41db3, type: 2}
       propertyPath: m_BackGroundColor.r
-      value: 0.46323532
+      value: 0.1137255
       objectReference: {fileID: 0}
     - target: {fileID: 2069376, guid: 4cac9acb69a74ad4fa5d8cf9a9c41db3, type: 2}
       propertyPath: m_BackGroundColor.g
-      value: 0.46323532
+      value: 0.2784314
       objectReference: {fileID: 0}
     - target: {fileID: 2069376, guid: 4cac9acb69a74ad4fa5d8cf9a9c41db3, type: 2}
       propertyPath: m_BackGroundColor.b
-      value: 0.534
+      value: 0.43921572
       objectReference: {fileID: 0}
     - target: {fileID: 2069376, guid: 4cac9acb69a74ad4fa5d8cf9a9c41db3, type: 2}
       propertyPath: m_BackGroundColor.a
@@ -621,7 +621,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -1032328464
+  randomSeed: -420078287
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2448,8 +2448,8 @@ ParticleSystem:
   playOnAwake: 1
   moveWithTransform: 1
   autoRandomSeed: 1
-  scalingMode: 2
-  randomSeed: -702919792
+  scalingMode: 0
+  randomSeed: 1245534197
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2615,7 +2615,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 0.101960786}
       minMaxState: 0
     startSize:
-      scalar: 0.15
+      scalar: 0.07
       maxCurve:
         serializedVersion: 2
         m_Curve:

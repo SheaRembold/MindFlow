@@ -128,7 +128,7 @@ public class iMotions : MonoBehaviour
                     time = 0;
                 }
             }
-            scaleObj.transform.localScale = (1f - 1f * newValue) * Vector3.one;
+            scaleObj.transform.localScale = Mathf.Pow((1f - 1f * newValue) * 0.5f, 2f) * 2f * Vector3.one;
             scaleObj.transform.localPosition = new Vector3(0f, -0.1f, 0.3f - 0.25f * newValue);
         }
 
